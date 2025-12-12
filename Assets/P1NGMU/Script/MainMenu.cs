@@ -10,7 +10,7 @@ namespace P1NGMU
         public GameObject MenualBack;
         public GameObject Menual;
         public GameObject Story;
-        public void BtnMenual()
+        public void BtnManual()
         {
             MenualBack.GetComponent<Animator>().SetTrigger("Close");
             Invoke("OpenMenual", 2f);
@@ -26,15 +26,25 @@ namespace P1NGMU
         {
             switch (num)
             {
-                case 0:
+                case 0: //Menual
                     Menual.GetComponent<Animator>().SetTrigger("Close");
                     Invoke("OpenMenuBack", 2f);
                     break;
-                case 1:
+                case 1: //Story
                     Story.GetComponent<Animator>().SetTrigger("Close");
                     Invoke("OpenMenuBack", 2f);
                     break;
             }
+        }
+
+        public void BtnStart()
+        {
+            SceneManager.LoadScene("stage01");
+        }
+
+        public void BtnExit()
+        {
+            Application.Quit();
         }
 
         void OpenMenual()
@@ -52,17 +62,5 @@ namespace P1NGMU
             Story.SetActive(true);
             Story.GetComponent<Animator>().SetTrigger("Open");
         }
-
-        public void BtnStart()
-        {
-            SceneManager.LoadScene("stage01");
-            //GameDataManager.Instance.SetlnitPlayer();
-        }
-
-        public void BtnExit()
-        {
-            Application.Quit();
-        }
-
     }
 }
