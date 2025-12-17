@@ -7,6 +7,7 @@ namespace P1NGMU
 {
     public class Enemy : MonoBehaviour
     {
+        private GameManager gameManager;
         public float speed;
         public float ThrowPower = 50.0f;
         private GameObject Player;
@@ -14,19 +15,30 @@ namespace P1NGMU
         public Transform BulletPoint;
         public float delay = 0.5f;
         public float fireRete = 1.0f;
+        public GameObject[] item;
         public float hp = 1.0f;
         public float maxhp = 1.0f;
 
         void Start()
         {
+            GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            if (gameManagerObject != null)
+            {
+                gameManager = gameManagerObject.GetComponent<GameManager>();
+            }
+            if (gameManager == null)
+            {
+                Debug.LogError("ê²Œì„ ë§¤ë‹ˆì €ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+            }
+
             Player = GameObject.FindGameObjectWithTag("Player");
 
             if(Player == null)
             {
-                Debug.Log("°ÔÀÓ Player Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+                Debug.Log(" Player .");
             }
 
-            this.GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            this.GetComponent<Rigidbody>().linearVelocity = transform.forward * speed;
             Invoke("ThrowPlayer", Random.Range(0.5f, 1.5f));
             InvokeRepeating("fireBullet", delay, fireRete);
         }
@@ -56,8 +68,17 @@ namespace P1NGMU
             if (other.CompareTag("Bullet"))
             {
                 hp -= 1f;
+
+                //ì•„ì´í…œ ë“œëì€ ëŒ€íšŒì—ì„œ ë¬´ì¡°ê±´ ë‚˜ì˜´
                 if(hp < 1.0f)
                 {
+                    int itemNum = gameManager.CreateItem();
+                    if (!other.CompareTag("Player") && itemNum != -1)
+                    {
+                        Instantiate(item[itemNum], this.transform.position, item[itemNum].transform.rotation);
+                    }
+                    gameManager.listEnemys.Remove(this.gameObject);
+
                     Destroy(gameObject);
                 }
                 Destroy(other.gameObject);

@@ -13,7 +13,7 @@ namespace P1NGMU
         // Start is called before the first frame update
         void Start()
         {
-            this.GetComponent<Rigidbody>().velocity = transform.forward * speed;
+            this.GetComponent<Rigidbody>().linearVelocity = transform.forward * speed;
         }
 
         // Update is called once per frame

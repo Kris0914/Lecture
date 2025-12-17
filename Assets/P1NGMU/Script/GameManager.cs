@@ -54,7 +54,7 @@ namespace P1NGMU
         {
             int per = Random.Range(0, 100);
 
-            if (per > itemPer[3])
+            if (per > itemPer[2])
             {
                 return -1;
             }

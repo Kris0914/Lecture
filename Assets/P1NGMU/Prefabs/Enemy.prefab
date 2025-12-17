@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9035969355148252916}
   - component: {fileID: 7668163915649613219}
   - component: {fileID: 6042595043327683156}
-  - component: {fileID: 8867712634795472140}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -59,6 +58,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,33 +84,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8867712634795472140
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4311625778332403452}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &4863473069932386740
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +100,7 @@ GameObject:
   - component: {fileID: 3753211641307899166}
   - component: {fileID: 34485554065674223}
   - component: {fileID: 499439469916608721}
+  - component: {fileID: 7647695462543586303}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -149,10 +132,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4863473069932386740}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -187,8 +170,35 @@ MonoBehaviour:
   BulletPoint: {fileID: 3285396352410474910}
   delay: 0.5
   fireRete: 1
+  item:
+  - {fileID: 1441600830420563437, guid: e274bcab0ed4eb94e9354b8ba23d1533, type: 3}
+  - {fileID: 98442275696924451, guid: 91131ba0398094c4bb298d5fd7af8646, type: 3}
+  - {fileID: 2111182169616875662, guid: 11d96001ab385db418a5e650767b6614, type: 3}
   hp: 1
   maxhp: 1
+--- !u!136 &7647695462543586303
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4863473069932386740}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &6405615982728096088
 GameObject:
   m_ObjectHideFlags: 0
