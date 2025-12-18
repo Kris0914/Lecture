@@ -11,7 +11,7 @@ namespace P1NGMU
         
         public float reloadTime = 0f;
         Rigidbody thisRigi;
-        
+        GameManager gameManager;
         public float speed = 2.0f;
         
         public GameObject objBullet;
@@ -28,6 +28,16 @@ namespace P1NGMU
         void Start()
         {
             thisRigi = GetComponent<Rigidbody>();
+
+            GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            if (gameManagerObject != null)
+            {
+                gameManager = gameManagerObject.GetComponent<GameManager>();
+            }
+            if (gameManager == null)
+            {
+                Debug.LogError("게임 매니저가 존재하지 않습니다.");
+            }
         }
 
         public void Move()
@@ -53,13 +63,48 @@ namespace P1NGMU
                 GameObject bullet = Instantiate(objBullet, BulletPoint.position, this.transform.rotation);
                 bullet.GetComponent<Bullet>().SetBullet(BulletPoint.position + Vector3.forward);
             }
+            if(Input.GetButton("Fire2") && (GameDataManager.Instance.bombTime <= GameDataManager.Instance.bombing))
+            {
+                if (GameDataManager.Instance.bomb == 0)
+                {
+                    GameDataManager.Instance.isBomb = true;
+                }
+                else
+                {
+                    GameDataManager.Instance.bomb--;
+                    GameDataManager.Instance.bombing = 0;
+                    for (int i = 0; i < GameManager.listEnemys.Count; i++)
+                    {
+                        if (GameManager.listEnemys[i].GetComponent<Enemy>() == null)
+                        {
+                            GameDataManager.Instance.isBomb = true;
+                        }
+                        else
+                        {
+                            GameDataManager.Instance.bomb--;
+                            GameDataManager.Instance.bombing = 0;
+                            for (int i = 0; i < GameManager.listEnemys.Count; i++)
+                            {
+                                if (GameManager.listEnemys[i].GetComponent<Enemy>() != null)
+                                {
+                                    gameManager.listEnemys[i].GetComponent<Enemy>().hp -= 1;
+                                    if (gameManager.listEnemys[i].GetComponent<Enemy>().hp < 0)
+                                    {
+                                        Destroy(gameManager.listEnemys[i].gameObject);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Bullet"))
             {
-                hp -= 1f;
-                if (hp < 1.0f)
+                GameDataManager.Instance.hp -= 1f;
+                if (GameDataManager.Instance.hp < 1.0f)
                 {
                     Destroy(gameObject);
                 }
@@ -67,17 +112,29 @@ namespace P1NGMU
             }
             else if (other.CompareTag("Enemy"))
             {
-                hp -= 1f;
+                GameDataManager.Instance.hp -= 1f;
             }
             if (other.CompareTag("Item"))
             {
                 switch (other.GetComponent<Item>().status)
                 {
                     case ItemStatus.hp:
+                        if(GameDataManager.Instance.hp < GameDataManager.Instance.maxHp)
+                        {
+                            GameDataManager.Instance.hp += 1f;
+                        }
                         break;
                     case ItemStatus.upgrade:
+                        if(GameDataManager.Instance.upgrade < GameDataManager.Instance.maxUpgrade)
+                        {
+                            GameDataManager.Instance.upgrade++;
+                        }
                         break;
                     case ItemStatus.bomb:
+                        if (GameDataManager.Instance.bomb < GameDataManager.Instance.maxBomb)
+                        {
+                            GameDataManager.Instance.bomb++;
+                        }
                         break;
                 }
                 Destroy (other.gameObject);
