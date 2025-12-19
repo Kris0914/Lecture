@@ -57,13 +57,13 @@ namespace P1NGMU
         {
             reloadTime += Time.deltaTime;
 
-            if(Input.GetButton("Fire1") && (bulletTime <= reloadTime))
+            if (Input.GetButton("Fire1") && (bulletTime <= reloadTime))
             {
                 reloadTime = 0f;
                 GameObject bullet = Instantiate(objBullet, BulletPoint.position, this.transform.rotation);
                 bullet.GetComponent<Bullet>().SetBullet(BulletPoint.position + Vector3.forward);
             }
-            if(Input.GetButton("Fire2") && (GameDataManager.Instance.bombTime <= GameDataManager.Instance.bombing))
+            if (Input.GetButton("Fire2") && (GameDataManager.Instance.bombTime <= GameDataManager.Instance.bombing))
             {
                 if (GameDataManager.Instance.bomb == 0)
                 {
@@ -73,9 +73,9 @@ namespace P1NGMU
                 {
                     GameDataManager.Instance.bomb--;
                     GameDataManager.Instance.bombing = 0;
-                    for (int i = 0; i < GameManager.listEnemys.Count; i++)
+                    for (int i = 0; i < gameManager.listEnemys.Count; i++)
                     {
-                        if (GameManager.listEnemys[i].GetComponent<Enemy>() == null)
+                        if (gameManager.listEnemys[i].GetComponent<Enemy>() == null)
                         {
                             GameDataManager.Instance.isBomb = true;
                         }
@@ -83,17 +83,15 @@ namespace P1NGMU
                         {
                             GameDataManager.Instance.bomb--;
                             GameDataManager.Instance.bombing = 0;
-                            for (int i = 0; i < GameManager.listEnemys.Count; i++)
+
+                            gameManager.listEnemys[i].GetComponent<Enemy>().hp -= 1;
+
+                            if (gameManager.listEnemys[i].GetComponent<Enemy>().hp < 0)
                             {
-                                if (GameManager.listEnemys[i].GetComponent<Enemy>() != null)
-                                {
-                                    gameManager.listEnemys[i].GetComponent<Enemy>().hp -= 1;
-                                    if (gameManager.listEnemys[i].GetComponent<Enemy>().hp < 0)
-                                    {
-                                        Destroy(gameManager.listEnemys[i].gameObject);
-                                    }
-                                }
+                                gameManager.listEnemys[i].GetComponent<Enemy>().InitItem();
+                                Destroy(gameManager.listEnemys[i].gameObject);
                             }
+
                         }
                     }
                 }

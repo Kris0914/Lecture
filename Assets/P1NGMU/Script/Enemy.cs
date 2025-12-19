@@ -2,6 +2,7 @@ using PlasticGui;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Codice.Client.Common.EventTracking.TrackFeatureUseEvent.Features.DesktopGUI.Filters;
 
 namespace P1NGMU
 {
@@ -58,6 +59,15 @@ namespace P1NGMU
             }
         }
 
+        public void InitItem()
+        {
+            int itemNum = gameManager.CreateItem();
+            if (itemNum != -1)
+            {
+                Instantiate(item[itemNum], this.transform.position, item[itemNum].transform.rotation);
+            }
+        }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy"))
@@ -83,6 +93,7 @@ namespace P1NGMU
                 }
                 Destroy(other.gameObject);
             }
+
             else if (other.CompareTag("Player"))
             {
                 Destroy(gameObject);

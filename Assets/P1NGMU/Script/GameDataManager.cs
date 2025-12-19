@@ -27,9 +27,18 @@ namespace P1NGMU
         public int bomb = 0;
         public int maxBomb = 3;
 
+        public void SaveData()
+        {
+           
+            if (PlayerPrefs.HasKey("id")) {
+                string id = PlayerPrefs.GetString("id");
+                Debug.Log(id);
+            }
+        }
+
         private void Start()
         {
-            
+            SaveData();
         }
         private void Update()
         {
